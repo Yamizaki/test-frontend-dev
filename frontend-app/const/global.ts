@@ -1,0 +1,4 @@
+const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+const MINUTE = 60 * 1000
+
+export { BACKEND_BASE_URL, MINUTE }
