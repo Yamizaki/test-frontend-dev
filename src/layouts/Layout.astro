@@ -1,0 +1,41 @@
+---
+import MetaTags from "@/components/MetaTags.astro";
+import Navigation from "@/components/Navigation.astro";
+import { ClientRouter } from "astro:transitions";
+import "@/styles/global.css";
+import type { ResponseCursoData } from "@/types";
+
+interface Props {
+	title?: string;
+	description?: string;
+	autor?: string;
+	keywords?: string;
+	class?: string;
+}
+
+const {
+	class: className,
+	title = "Cursos Pruebas | Bienvenido a un lugar donde aprender es divertido",
+	description = "Cursos Pruebas es una plataforma de aprendizaje en línea que ofrece cursos en línea para profesionales creativos. En Cursos Pruebas, los estudiantes pueden aprender habilidades específicas en áreas como diseño y desarrollo web.",
+	autor = "Cursos Pruebas",
+	keywords = "Cursos Pruebas, cursos en línea, diseño, desarrollo web, creatividad, aprendizaje en línea",
+} = Astro.props;
+
+const isLoggedIn = Boolean(Astro.locals.cursosApi);
+---
+
+<!doctype html>
+<html lang='es' class='h-full'>
+	<head>
+		<title>{title}</title>
+		<ClientRouter />
+		<MetaTags title={title} description={description} autor={autor} keywords={keywords} />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+	</head>
+	<body class='h-full flex flex-col'>
+		<Navigation isLoggedIn={isLoggedIn} />
+		<main class='w-full flex-grow bg-gradient-to-b from-slate-950 to-slate-900 text-neutral-50' class:list={[className || "flex flex-col items-start", className]}>
+			<slot />
+		</main>
+	</body>
+</html>

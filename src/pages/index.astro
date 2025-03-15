@@ -1,0 +1,11 @@
+---
+import Modulo from "@/components/Curso/Modulo";
+import Layout from "../layouts/Layout.astro";
+import GridModulo from "@/components/GridModulo";
+
+const cursosApi = Astro.locals.cursosApi;
+---
+
+<Layout>
+	<GridModulo curso={cursosApi} client:load />
+</Layout>

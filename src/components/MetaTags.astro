@@ -1,0 +1,36 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	autor: string;
+	keywords: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description, autor, keywords } = Astro.props;
+---
+
+<meta charset='utf-8' />
+<meta name='title' content={title} />
+<meta name='description' content={description} />
+<meta name='application-name' content='Cursos Pruebas' />
+<meta name='author' content={autor} />
+<meta name='generator' content={Astro.generator} />
+<meta name='keywords' content=`${keywords}` />
+<link rel='canonical' href={canonicalURL} />
+<meta name='viewport' content='width=device-width,initial-scale=1' />
+<meta name='creator' content={autor} />
+<meta name='publisher' content={autor} />
+<meta name='robots' content='index, follow' />
+<meta name='googlebot' content='index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1' />
+<link rel='mask-icon' href='/favicon.ico' color='#8D46E7' />
+<meta property='og:url' content={Astro.url} />
+<meta property='og:title' content={title} />
+<meta property='og:site_name' content='Cursos Pruebas' />
+<meta property='og:description' content={description} />
+<meta property='og:article:author' content={autor} />
+<meta property='og:author' content={autor} />
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:url' content={Astro.url} />
+<meta name='twitter:title' content={title} />
+<meta name='twitter:description' content={description} />
