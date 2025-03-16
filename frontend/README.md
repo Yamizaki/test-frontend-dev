@@ -45,8 +45,7 @@ Este proyecto es la solución a un challenge que consiste en crear un frontend p
 
 ## Despliegue
 
-La aplicación está desplegada en:
-https://test-frontend-dev-lilac.vercel.app/.
+Puedes acceder a la versión en vivo del proyecto aquí: [https://test-frontend-dev-lilac.vercel.app/](https://test-frontend-dev-lilac.vercel.app/)
 
 ## Autor
 
