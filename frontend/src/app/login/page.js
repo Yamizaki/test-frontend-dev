@@ -30,9 +30,7 @@ export default function LoginPage() {
       }
 
       const data = await response.json();
-      console.log(data);
       localStorage.setItem("token", data.access_token);
-      console.log("Token guardado:", data.access_token);
       router.push("/modules");
     } catch (err) {
       setError(err.message);
@@ -40,16 +38,16 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded shadow-md w-full max-w-md text-white">
+    <main className="flex items-center justify-center min-h-screen bg-[#0F172A] text-white font-sans">
+      <div className="bg-[#1E293B] p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div>
-            <label className="block mb-1">Usuario:</label>
+            <label className="block mb-2 text-sm font-medium">Usuario:</label>
             <input
               type="text"
-              className="w-full px-3 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded-md bg-[#2D3748] border border-[#4A5568] focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Ingresa tu usuario"
@@ -58,10 +56,12 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block mb-1">Contraseña:</label>
+            <label className="block mb-2 text-sm font-medium">
+              Contraseña:
+            </label>
             <input
               type="password"
-              className="w-full px-3 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded-md bg-[#2D3748] border border-[#4A5568] focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Ingresa tu contraseña"
@@ -69,11 +69,15 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+          {error && (
+            <p className="text-red-400 text-sm mt-2 p-2 bg-red-800 rounded-md">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded transition-colors"
+            className="bg-[#3B82F6] hover:bg-[#2563EB] text-white py-3 px-6 rounded-md transition-colors font-medium"
           >
             Entrar
           </button>
