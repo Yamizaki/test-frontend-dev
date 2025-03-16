@@ -1,7 +1,6 @@
-// app/modules/page.js
-"use client"; // Asegúrate de tener esto
+"use client";
 
-import ModulesPage from "../ModulesPage"; // Ajusta la ruta si es necesario
+import ModulesPage from "../ModulesPage";
 
 export default function Modules() {
   return <ModulesPage />;
