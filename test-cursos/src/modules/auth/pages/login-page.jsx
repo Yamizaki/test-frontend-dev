@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { authStore } from "../store/auth-store";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../core/ui/button";
 
 
 export const LoginPage = () => {
@@ -14,18 +15,18 @@ export const LoginPage = () => {
 
   const handleLogin = async (data) => {
     console.log(data);
-    try{
-          // se agrega el prefijo /api para que funcione el proxy de vite
-       const response = await axios.post("/api/login", data);
-       if(response.status === 200){
-          setUserToken(response.data.access_token);
-          navigate("/");
-       }
-    }catch(error){
+    try {
+      // se agrega el prefijo /api para que funcione el proxy de vite
+      const response = await axios.post("/api/login", data);
+      if (response.status === 200) {
+        setUserToken(response.data.access_token);
+        navigate("/");
+      }
+    } catch (error) {
       console.log(error);
     }
 
-   
+
 
   };
 
@@ -78,12 +79,7 @@ export const LoginPage = () => {
               />
             </div>
             <div>
-              <button
-                type="submit"
-                className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
-              >
-                Ingresar
-              </button>
+              <Button>Iniciar sesión</Button>
             </div>
           </form>
         </div>
