@@ -17,6 +17,6 @@ export const ModuleSchema = z.object({
     titulo:  z.string(),
     descripcion: z.string(),
     clases : z.array(ClaseSchema),
-})
+}).nullable();
 
 export const ModulesSchema = z.array(ModuleSchema);

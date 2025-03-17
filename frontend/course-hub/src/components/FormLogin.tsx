@@ -45,11 +45,16 @@ export const FormLogin = () => {
     return <Navigate to="/home" replace />;
   }
 
-  const onSubmit = async(data: CredentialsLogin) => {
+  const onSubmit = async({username,password}: CredentialsLogin) => {
     setErrorMessage(null)
     setIsLoading(true)
 
-    const success = await getToken(data);
+    const usernameFormated = username.trim().toLowerCase();
+
+    const success = await getToken({
+      username: usernameFormated,
+      password
+    });
 
     if(!success){
       setErrorMessage("Usuario o contraseña incorrectos")
