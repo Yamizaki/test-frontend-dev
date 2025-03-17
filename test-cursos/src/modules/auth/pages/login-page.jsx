@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 import React from "react";
 import ImageLogin from "../../../assets/login.jpg";
 import { useForm } from "react-hook-form";
@@ -26,7 +27,7 @@ export const LoginPage = () => {
 
     try {
       // se agrega el prefijo /api para que funcione el proxy de vite
-      const response = await axios.post("/api/login", data)
+      const response = await axios.post(`${API_URL}/login`, data)
       if (response.status === 200) {
         setUserToken(response.data.access_token)
         navigate("/")

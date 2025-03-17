@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Button = ({  
- isLoading = false,
+export const Button = ({
+  isLoading = false,
   disabled = false,
-  children}) => {
+  children }) => {
   return (
     <button
       type="submit"
@@ -13,7 +13,7 @@ export const Button = ({
       ${disabled && 'opacity-50 pointer-events-none'}, 
         `}
     >
-     {children}
+      {children}
     </button>
   );
 };
