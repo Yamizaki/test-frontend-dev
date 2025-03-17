@@ -28,7 +28,7 @@ export const Home = () => {
     <>
       <div>     
         <div className="bg-m-purple-bg">
-          <header className="px-16 mx-auto py-4 flex justify-between items-center">
+          <header className=" px-6 lg:px-16 mx-auto py-4 flex justify-between items-center">
             <h1 className="text-white m-0 text-2xl font-semibold">Courses Hub</h1>
             <NavigationMenu>
               <NavigationMenuList>
