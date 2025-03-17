@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+const searchParams = new URL(Astro.request.url).searchParams;
+const hasError = searchParams.get("error") === "invalid";
 ---
 
 <Layout>
@@ -27,6 +29,7 @@ import Layout from "../layouts/Layout.astro";
 				required
 			/>
 		</div>
+		{hasError && <div class='text-red-500 text-xs'>Usuario o contraseña incorrectos</div>}
 		<button type='submit' class='bg-blue-700 hover:bg-blue-800 font-medium rounded text-sm py-2 text-center'>Login</button>
 	</form>
 </Layout>

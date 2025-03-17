@@ -29,6 +29,7 @@ export async function onRequest(context: any, next: any) {
       }
     } catch (error) {
       console.error("Error verificando token:", error);
+
     }
   }
 

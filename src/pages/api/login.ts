@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const returnedData = await response.json();
 
     if (!response.ok || !returnedData.access_token) {
-      return redirect(302, "/login");
+      return redirect(302, "/login?error=invalid");
     }
 
     cookies.set("auth_token", returnedData.access_token, {
