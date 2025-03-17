@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+# BlockChain - Plataforma de Cursos Interactivos
+
+Plataforma educativa para aprendizaje estructurado con seguimiento de progreso y contenido interactivo.
+
+## ✨ Características Principales
+
+- Reproductor de video con controles interactivos
+- Sistema de seguimiento de progreso
+- Navegación por módulos en acordeón
+- Sincronización con localStorage
+- Diseño responsive y accesible
+
+## 🚀 Demo
+
+Accede a la versión en vivo:  
+[https://test-fronted-dev.vercel.app/](https://test-fronted-dev.vercel.app/)
+
+## 🛠 Instalación
+
+1. Clonar repositorio:
+
+```bash
+git clone https://github.com/tu-usuario/learnpath.git
+```
+=======
 # API para Gestión de Módulos de Cursos
 ## Realiza un fork de este repositorio y al culminar presenta un Pull request, si tienes alguna duda o consulta puedes enviarla por medio de un draft
 
@@ -84,3 +110,4 @@ Puntos a valorar:
 ## La ultima parte del test consiste en hacer un deploy en el host que más se acomode a tus conocimientos al hacer el pull request, adjunta el link de tu test
   
 *Esta prueba busca evaluar el expertise del postulante; no necesitas presentarlo en tiempo record. Rindelo con traquilidad y disfruta del Test*
+>>>>>>> upstream/main
