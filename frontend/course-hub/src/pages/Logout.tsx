@@ -10,7 +10,7 @@ export const Logout = () => {
 
     useEffect(()=> {
         logout()
-        useLoginStore.persist.clearStorage()
+        localStorage.removeItem("auth-storage")
         navigate("/login", {replace: true})
     }, [logout, navigate])
 

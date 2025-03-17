@@ -18,10 +18,9 @@ export const useLoginStore = create<LoginState>()(
             token: null,
             isLogin: false,
             login: () => set({isLogin: true}),
-    
+            
             logout: () => {
                 set({token: null, isLogin: false})
-                
             },
     
             getToken: async (credentials:CredentialsLogin) => {
