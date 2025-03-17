@@ -205,6 +205,8 @@ export default function HomePage() {
     </>
   );
 
+  
+
   // Renderizar dentro del layout responsivo
   return (
     <ResponsiveLayout 

@@ -102,7 +102,7 @@ export default function MobileLayout({ children, sidebar: Sidebar, modulos, sele
       </div>
       
       {/* Contenido principal */}
-      <main className="pt-16 px-4 py-6">
+      <main className="pt-24 px-4 py-6">
         {children}
       </main>
       

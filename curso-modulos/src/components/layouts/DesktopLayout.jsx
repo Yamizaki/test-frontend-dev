@@ -40,8 +40,8 @@ export default function DesktopLayout({ children, sidebar: Sidebar, modulos, sel
         </div>
         
         {/* Contenido principal - ajusta el margen según el estado del sidebar */}
-        <main className={`flex-1 transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'} p-6`}>
-          {children}
+        <main className={`flex-1 transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'} p-6 pt-24`}>
+        {children}
         </main>
       </div>
     </div>
