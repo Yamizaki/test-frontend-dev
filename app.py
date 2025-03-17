@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import datetime
-
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)
 # Configuración de JWT
 app.config["JWT_SECRET_KEY"] = (
     "mi_clave_secreta"  # Cambia esta clave por una más segura
