@@ -1,86 +1,36 @@
-# API para Gestión de Módulos de Cursos
-## Realiza un fork de este repositorio y al culminar presenta un Pull request, si tienes alguna duda o consulta puedes enviarla por medio de un draft
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Este es un API RESTful que proporciona información sobre módulos de cursos y sus clases asociadas. El API también utiliza **JWT** para proteger rutas sensibles.
+## Getting Started
 
-La API está desplegada y disponible en la siguiente URL:
+First, run the development server:
 
-**[https://test-frontend-dev.onrender.com](https://test-frontend-dev.onrender.com)**
-
-## Endpoints
-
-## La primera parte de la prueba consiste en crear un Login basico que permita obtener un JWT:
-
-1. **Login para obtener JWT**
-**Método**: `POST`  
-**URL**: `/login`
-
-Este endpoint permite autenticar al usuario y obtener un **JSON Web Token (JWT)** que debe incluirse en las cabeceras de las solicitudes siguientes para acceder a las rutas protegidas.
-
-#### Request Body (JSON):
-
-*json*
-```
-{
-  "username": "usuario",
-  "password": "contraseña"
-}
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-*Response*
-```
-{
-  "access_token": "your_jwt_token_here"
-}
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-con este token podrás acceder al siguiente endpoint:
-**[https://test-frontend-dev.onrender.com/api/modulos](https://test-frontend-dev.onrender.com/api/modulos)**
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-no olvides hacer uso de tu token: 
-```
-  headers: {
-    'Authorization': 'Bearer your_jwt_token_here'
-  }
-```
-donde obtendras una respuesta como esta: 
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```
-[
-  {
-    "titulo": "Módulo 1: Introducción al Desarrollo Web",
-    "descripcion": "Este módulo cubre los fundamentos del desarrollo web, desde HTML hasta CSS.",
-    "clases": [
-      {
-        "titulo": "Introducción a HTML",
-        "video": "https://www.example.com/video_html.mp4",
-        "descripcion": "Aprende los fundamentos de HTML.",
-        "duracion": "30 minutos",
-        "completado": false
-      },
-      {
-        "titulo": "CSS Básico",
-        "video": "https://www.example.com/video_css.mp4",
-        "descripcion": "Introducción al diseño web con CSS.",
-        "duracion": "45 minutos",
-        "completado": true
-      }
-    ]
-  }
-]
-```
+## Learn More
 
-## La segunda parte del Test consiste en mostrar los datos de un curso.
+To learn more about Next.js, take a look at the following resources:
 
-Puedes utilizar Js Vanilla, React o Next para consumir dicha API; en cuanto a tecnolgías derivadas de CSS tienes libre eleccion. 
-Usa como referencia el siguiente ejemplo; finalmente tienes libertad de diseño.
-![Referencia de diseño](ref/diseño.png)
-Puntos a valorar:
-  - Conocimientos en diseño responsivo
-  - Conocimientos en UI/UX
-  - Calidad de código
-  - Rendimiento de componentes
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## La ultima parte del test consiste en hacer un deploy en el host que más se acomode a tus conocimientos al hacer el pull request, adjunta el link de tu test
-  
-*Esta prueba busca evaluar el expertise del postulante; no necesitas presentarlo en tiempo record. Rindelo con traquilidad y disfruta del Test*
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
