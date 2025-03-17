@@ -18,7 +18,7 @@ export default function GridModulo({ curso }: Props) {
     setSelectedClase(clase);
   };
   return (
-    <div className="grid grid-cols-12 w-full gap-2">
+    <div className="grid grid-cols-12 gap-2 px-5 w-full">
       <div className="col-span-12 md:col-span-7 lg:col-span-8">
         <div className="p-4 rounded-md shadow-md flex flex-col gap-6">
           <div className="mt-4">

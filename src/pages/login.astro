@@ -3,13 +3,30 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<form action='/api/login' method='post'>
-		<label for='username'>Username</label>
-		<input type='text' id='username' name='username' required />
+	<form action='/api/login' method='post' class='flex flex-col mx-auto my-auto gap-3'>
+		<div>
+			<label for='username' class='block mb-2 text-sm font-bold text-neutral-50'>Nombre de usuario</label>
+			<input
+				type='text'
+				id='username'
+				name='username'
+				class='bg-gray-700 border border-gray-600 text-neutral-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+				placeholder='Usuario053'
+				required
+			/>
+		</div>
 
-		<label for='password'>Password</label>
-		<input type='password' id='password' name='password' required />
-
-		<button type='submit'>Login</button>
+		<div>
+			<label for='password' class='block mb-2 text-sm font-bold text-neutral-50'>Contraseña</label>
+			<input
+				type='password'
+				id='password'
+				name='password'
+				class='bg-gray-700 border border-gray-600 text-neutral-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+				placeholder='••••••••'
+				required
+			/>
+		</div>
+		<button type='submit' class='bg-blue-700 hover:bg-blue-800 font-medium rounded text-sm py-2 text-center'>Login</button>
 	</form>
 </Layout>

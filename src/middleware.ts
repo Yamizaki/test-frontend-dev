@@ -25,7 +25,7 @@ export async function onRequest(context: any, next: any) {
         context.locals.cursosApi = responseData;
         isLoggedIn = true;
       } else {
-        console.log("Verificación fallida:", await response.text());
+        console.log("Verificación fallida:");
       }
     } catch (error) {
       console.error("Error verificando token:", error);
