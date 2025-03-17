@@ -8,10 +8,21 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useLoginStore } from "@/store/useLoginStore";
+import { useNavigate } from "react-router-dom";
 
 
 
 export const Home = () => {
+
+  const logout = useLoginStore(state => state.logout);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout()
+    navigate("/login", {replace: true})
+  }
+
   return (
     <>
       <div className="bg-m-purple-bg">
@@ -25,7 +36,12 @@ export const Home = () => {
 
                   <NavigationMenuLink className="w-48 text-white hover:text-m-purple-bg cursor-pointer">Mi perfil</NavigationMenuLink>
                   <NavigationMenuLink className="w-48 text-white hover:text-m-purple-bg cursor-pointer">Suscripciones</NavigationMenuLink>
-                  <NavigationMenuLink className="w-48 text-white hover:text-m-purple-bg cursor-pointer">Cerrar Sesion</NavigationMenuLink>
+                  <NavigationMenuLink 
+                    className="w-48 text-white hover:text-m-purple-bg cursor-pointer"
+                    onClick={handleLogout}
+                    >
+                  Cerrar Sesion
+                  </NavigationMenuLink>
                   
                 </NavigationMenuContent>
               </NavigationMenuItem>

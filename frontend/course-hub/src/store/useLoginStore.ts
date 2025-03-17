@@ -1,4 +1,4 @@
-import { AuthenticateUser } from '@/services/CourseServices'
+import { AuthenticateUser, getModules } from '@/services/CourseServices'
 import { CredentialsLogin } from '@/types'
 import {create} from 'zustand'
 import {devtools, persist} from 'zustand/middleware'
@@ -21,13 +21,16 @@ export const useLoginStore = create<LoginState>()(
     
             logout: () => {
                 set({token: null, isLogin: false})
+                
             },
     
             getToken: async (credentials:CredentialsLogin) => {
                 const token = await AuthenticateUser(credentials)
+                const modules = await getModules(token)
                 if(token){
                     set({token,isLogin: true})
                     console.log("token", token)
+                    console.log("modules", {modules})
                     return true
                 }
                 return false
