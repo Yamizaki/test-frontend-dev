@@ -1,11 +1,12 @@
 import React from 'react'
 import { IconX } from '../icons/icons'
 import Accordeon from '../ui/accordeon'
-import { useCourse } from '../../course/hooks/useCourse'
+import { useCourse } from '../../course/hooks/use-course'
+import { courseStore } from '../../course/store/course-store'
+
 
 export const Sidebar = ({ onClose }) => {
-    const { course } = useCourse()
-    console.log(course);
+    const { course } = courseStore()
 
     return (
         <div className='shadow-md h-screen'>
@@ -18,8 +19,8 @@ export const Sidebar = ({ onClose }) => {
             </div>
             <div className="flex flex-col ">
                 {
-                    course.map((item) => (
-                        <Accordeon title={item.titulo} content={item.clases} initialState={true} />
+                    course.map((item, index) => (
+                        <Accordeon key={index} title={item.titulo} content={item.clases} initialState={true} onClose={onClose} />
                     ))
                 }
             </div>

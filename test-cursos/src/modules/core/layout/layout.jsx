@@ -4,12 +4,20 @@ import { IconSidebarCollapse, IconSidebarExpand } from '../icons/icons'
 import { Sidebar } from './sidebar'
 import LOGO from '../../../assets/logo.png'
 import { Drawer } from '../ui/drawer'
+import { Avatar } from '../ui/avatar'
+import { authStore } from '../../auth/store/auth-store'
 
 export function Layout() {
+
+    const { setUserToken } = authStore()
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
+    }
+
+    const logout = () => {
+        setUserToken(null)
     }
 
     return (
@@ -25,14 +33,17 @@ export function Layout() {
                                 Desarrollo web completo de cero a experto
                             </h1>
                         </div>
+                        <div className="flex items-center gap-x-2">
+                            <Avatar onLogout={logout} />
+                            <button
+                                onClick={toggleSidebar}
+                                className="p-2 rounded-lg hover:bg-gray-100"
+                            >
+                                {isSidebarOpen ? <IconSidebarCollapse className="w-6 h-6 text-gray-600" /> : <IconSidebarExpand className="w-6 h-6 text-gray-600" />}
 
-                        <button
-                            onClick={toggleSidebar}
-                            className="p-2 rounded-lg hover:bg-gray-100"
-                        >
-                            {isSidebarOpen ? <IconSidebarCollapse className="w-6 h-6 text-gray-600" /> : <IconSidebarExpand className="w-6 h-6 text-gray-600" />}
+                            </button>
+                        </div>
 
-                        </button>
                     </div>
                 </header>
 

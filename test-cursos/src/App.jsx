@@ -18,7 +18,9 @@ function App() {
           }
         >
 
-          <Route index path='/' element={<CoursePage />} />
+          <Route index element={<Navigate to="/clases/introducción-a-html" replace />} />
+
+          <Route path="/clases/:course" element={<CoursePage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
