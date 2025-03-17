@@ -26,6 +26,7 @@ export const ContentModules = () => {
     })
 
 
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 lg:h-[calc(100vh-68px)]">
         <div className="col-span-1 lg:col-span-8  font-semibold text-xl ">
