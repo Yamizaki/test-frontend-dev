@@ -13,8 +13,36 @@ export default function HomePage() {
   const [selectedModulo, setSelectedModulo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const router = useRouter();
 
+  // Controlar el colapso del sidebar basado en tamaño de pantalla inicial
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      if (width < 1024 && width >= 768) {
+        setIsCollapsed(true);
+      } else if (width >= 1024) {
+        setIsCollapsed(false);
+      }
+    };
+    
+    // Solo ejecutar en el cliente
+    if (typeof window !== 'undefined') {
+      handleResize();
+      window.addEventListener('resize', handleResize);
+    }
+    
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
+  // Cargar módulos
   useEffect(() => {
     // Verificar autenticación
     if (!isAuthenticated()) {
@@ -61,9 +89,14 @@ export default function HomePage() {
     setSelectedModulo(modulo);
   };
 
+  // Toggle del sidebar
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   if (loading) {
     return (
-      <div className="h-screen bg-gray-900 flex items-center justify-center">
+      <div className="h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-lg text-white">Cargando...</p>
@@ -74,7 +107,7 @@ export default function HomePage() {
 
   if (error) {
     return (
-      <div className="h-screen bg-gray-900 flex items-center justify-center">
+      <div className="h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
         <div className="bg-red-900/30 text-red-300 p-6 rounded-lg max-w-md border border-red-700/50">
           <h2 className="text-xl font-bold mb-2">Error</h2>
           <p>{error}</p>
@@ -98,10 +131,16 @@ export default function HomePage() {
   // Extraer el título después del número de módulo
   const moduleTitle = currentModuleTitle.replace(/Módulo \d+:\s*/i, '');
 
+  // Calcular el margen izquierdo para el contenido principal
+  const contentMargin = windowWidth >= 768 ? (isCollapsed ? 'ml-16' : 'ml-64') : 'ml-0';
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 text-white">
       {/* Navbar superior */}
-      <Navbar />
+      <Navbar 
+        isSidebarCollapsed={isCollapsed} 
+        toggleSidebar={toggleSidebar} 
+      />
       
       {/* Contenedor principal con sidebar y contenido */}
       <div className="flex">
@@ -109,13 +148,15 @@ export default function HomePage() {
         <Sidebar 
           modulos={modulos} 
           onSelectModulo={handleSelectModulo} 
-          selectedModulo={selectedModulo} 
+          selectedModulo={selectedModulo}
+          isCollapsed={isCollapsed}
+          toggleCollapse={toggleSidebar}
         />
         
-        {/* Contenido principal - el margin-left ahora se maneja dinámicamente en el componente sidebar */}
-        <main className="p-6 w-full transition-all duration-300">
+        {/* Contenido principal */}
+        <main className={`pt-16 p-6 w-full transition-all duration-300 ${contentMargin}`}>
           {selectedModulo && (
-            <div className="container mx-auto">
+            <div className="container mx-auto max-w-7xl">
               <div className="mb-8 border-b border-gray-700 pb-4">
                 <h1 className="text-3xl font-bold text-white mb-2">
                   Clase N° 01: {moduleTitle}
@@ -133,8 +174,9 @@ export default function HomePage() {
               
               {/* Contenedor de video */}
               <div className="mb-8 bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-blue-500/20 aspect-video relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-black opacity-70"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="bg-blue-600 hover:bg-blue-700 rounded-full p-4 transition-transform hover:scale-110">
+                  <button className="bg-blue-600 hover:bg-blue-700 rounded-full p-4 transition-transform hover:scale-110 shadow-lg">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -147,17 +189,17 @@ export default function HomePage() {
                 </div>
                 
                 {/* Controles de video simulados */}
-                <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 flex items-center">
-                  <button className="text-white mr-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-3 flex items-center">
+                  <button className="text-white mr-4 hover:text-blue-400 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </button>
                   
-                  <div className="flex-1 mx-2">
-                    <div className="h-1 bg-gray-600 rounded-full overflow-hidden">
-                      <div className="bg-blue-500 h-full w-1/4"></div>
+                  <div className="flex-1 mx-2 group">
+                    <div className="h-1.5 bg-gray-600 rounded-full overflow-hidden group-hover:h-2 transition-all">
+                      <div className="bg-blue-500 h-full w-1/4 group-hover:bg-blue-400 transition-colors"></div>
                     </div>
                   </div>
                   
@@ -165,15 +207,25 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="mb-10">
-                <h2 className="text-2xl font-bold mb-4">Descripción</h2>
+              <div className="mb-10 card p-6">
+                <h2 className="text-2xl font-bold mb-4 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Descripción
+                </h2>
                 <p className="text-gray-300">
                   {selectedModulo.descripcion}
                 </p>
               </div>
               
               {/* Otras clases del módulo */}
-              <h2 className="text-2xl font-bold mb-4">Clases de este módulo</h2>
+              <h2 className="text-2xl font-bold mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                Clases de este módulo
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {selectedModulo.clases.map((clase, index) => (
                   <ClaseCard key={index} clase={clase} />

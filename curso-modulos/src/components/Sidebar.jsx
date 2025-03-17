@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
+export default function Sidebar({ modulos, onSelectModulo, selectedModulo, isCollapsed, toggleCollapse }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   // Detectar cambios en el tamaño de la ventana de manera optimizada
@@ -20,26 +19,12 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
       
       // Establecer nuevo timeout
       timeoutId = setTimeout(() => {
-        const width = window.innerWidth;
-        setWindowWidth(width);
-        
-        // Auto-colapsar el sidebar en pantallas medianas
-        if (width < 1024 && width >= 768) {
-          setIsCollapsed(true);
-        } else if (width >= 1024) {
-          setIsCollapsed(false);
-        }
+        setWindowWidth(window.innerWidth);
       }, 200); // 200ms de debounce
     };
 
     // Configuración inicial (sin debounce)
-    const width = window.innerWidth;
-    setWindowWidth(width);
-    if (width < 1024 && width >= 768) {
-      setIsCollapsed(true);
-    } else if (width >= 1024) {
-      setIsCollapsed(false);
-    }
+    setWindowWidth(window.innerWidth);
     
     // Agregar event listener
     window.addEventListener('resize', handleResize);
@@ -55,10 +40,6 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
   };
 
   // Agrupar módulos por número de módulo
@@ -112,8 +93,10 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
       {/* Sidebar */}
       <aside
         className={`
-          bg-gray-800 text-white min-h-screen fixed left-0 top-0 z-40 pt-16
-          transform transition-all duration-300 ease-in-out shadow-xl
+          bg-gradient-to-b from-gray-800 to-gray-900
+          text-white min-h-screen fixed left-0 top-0 z-40 pt-16
+          transform transition-all duration-300 ease-in-out
+          border-r border-blue-500/10 shadow-xl
           ${sidebarWidth} ${
             windowWidth < 768 
             ? isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full' 
@@ -121,28 +104,6 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
           }
         `}
       >
-        {/* Botón para colapsar/expandir - visible en tablets y desktop */}
-        <button
-          onClick={toggleCollapse}
-          className="hidden md:flex absolute -right-3 top-24 bg-blue-600 text-white p-1 rounded-full shadow-lg z-50 hover:bg-blue-700 transition-colors"
-          aria-label={isCollapsed ? "Expandir menú" : "Colapsar menú"}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className={`h-5 w-5 transition-transform duration-300 ${isCollapsed ? 'rotate-0' : 'rotate-180'}`}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-
         <div className="p-4 overflow-y-auto h-full">
           {/* Botón cerrar para móvil */}
           <button
@@ -166,20 +127,13 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
             </svg>
           </button>
           
-          {/* Logo/título del sidebar - cambia según si está colapsado */}
-          <div className="flex justify-center mb-6">
-            {isCollapsed ? (
-              <div className="text-2xl font-bold text-white">B</div>
-            ) : (
-              <div className="text-xl font-bold text-white">Blockchain</div>
-            )}
-          </div>
-          
           <nav className="mt-6">
             {Object.entries(modulosAgrupados).map(([moduloTitle, modulosList], groupIndex) => (
               <div key={groupIndex} className="mb-6">
                 {!isCollapsed && (
-                  <h3 className="text-lg font-bold text-gray-300 mb-3">{moduloTitle}</h3>
+                  <h3 className="text-lg font-bold text-gray-300 mb-3 px-3 border-l-2 border-blue-500">
+                    {moduloTitle}
+                  </h3>
                 )}
                 <ul className="space-y-2">
                   {modulosList.map((modulo, index) => {
@@ -187,6 +141,11 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
                     const match = modulo.titulo.match(/Módulo \d+: (.*)/i);
                     const titulo = match ? match[1] : modulo.titulo;
                     const claseNum = index + 1; // Simulamos un número de clase
+                    
+                    // Determinar si la clase está completada basado en la primera clase del módulo
+                    const isCompleted = modulo.clases && modulo.clases.length > 0 
+                      ? modulo.clases[0].completado 
+                      : false;
                     
                     return (
                       <li key={index}>
@@ -196,16 +155,21 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
                             if (windowWidth < 768) setIsMobileMenuOpen(false);
                           }}
                           className={`
-                            w-full text-left rounded flex items-center 
+                            w-full text-left rounded-lg flex items-center 
                             ${isCollapsed ? 'justify-center py-3 px-1' : 'py-2 px-3'}
                             ${selectedModulo === modulo 
-                              ? 'bg-blue-700 text-white' 
-                              : 'text-gray-300 hover:bg-gray-700'}
+                              ? 'bg-blue-700 text-white shadow-lg' 
+                              : 'text-gray-300 hover:bg-gray-700/50'}
                             transition-colors
                           `}
                           title={isCollapsed ? `Clase ${claseNum}: ${titulo}` : ''}
                         >
-                          <span className={isCollapsed ? 'text-lg' : 'mr-2'}>●</span>
+                          {/* Indicador de estado (completado/pendiente) */}
+                          <span className={`
+                            flex-shrink-0 h-2 w-2 rounded-full 
+                            ${isCompleted ? 'bg-green-500' : 'bg-blue-400'}
+                            ${isCollapsed ? 'mx-auto' : 'mr-3'}
+                          `}></span>
                           
                           {!isCollapsed && (
                             <>
@@ -213,8 +177,8 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
                                 Clase N° {String(claseNum).padStart(2, '0')}
                                 {windowWidth > 1100 && `: ${titulo}`}
                               </span>
-                              <span className="ml-auto text-xs rounded px-1 py-1 bg-green-500">
-                                10
+                              <span className="ml-auto text-xs rounded-full px-2 py-0.5 bg-blue-500/20 border border-blue-500/30 font-medium">
+                                10 pts
                               </span>
                             </>
                           )}
@@ -226,19 +190,16 @@ export default function Sidebar({ modulos, onSelectModulo, selectedModulo }) {
               </div>
             ))}
           </nav>
+          
+          {/* Footer del sidebar - solo mostrar cuando está expandido */}
+          {!isCollapsed && (
+            <div className="mt-auto pt-6 pb-4 px-3 border-t border-gray-700 text-xs text-gray-400">
+              <p>© 2025 Plataforma Blockchain</p>
+              <p className="mt-1">Versión 1.0.0</p>
+            </div>
+          )}
         </div>
       </aside>
-      
-      {/* Espaciador para empujar el contenido cuando el sidebar está expandido */}
-      <div className={`
-        transition-all duration-300 ease-in-out
-        ${windowWidth >= 768 
-          ? isCollapsed 
-            ? 'ml-16' 
-            : 'ml-64' 
-          : 'ml-0'
-        }
-      `}></div>
     </>
   );
 }
