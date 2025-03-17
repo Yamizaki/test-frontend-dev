@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+const { isLoggedIn = false } = Astro.props;
+---
+
+<nav
+	id='mainNav'
+	class='flex w-full h-auto justify-between bg-neutral-950 text-white font-bold px-5 py-2 md:px-4 lg:px-6 xl:px-7 md:py-2 lg:py-4 xl:py-6 z-40 duration-300 text-sm lg:text-base items-center'
+>
+	<a href='https://github.com/BrayanCordova1/test-frontend-dev' target='_blank' class='flex gap-2 items-center'>
+		<Image src={"/github.svg"} width={800} height={800} alt='Github' class='w-4 h-4 lg:w-6 lg:h-6' /> GitHub
+	</a>
+
+	{
+		isLoggedIn && (
+			<form action='/api/logout' class='py-1 transition-all duration-500 gap-4' method='get'>
+				<button class='cursor-pointer' type='submit'>
+					Logout
+				</button>
+			</form>
+		)
+	}
+</nav>
