@@ -1,8 +1,32 @@
-export default function ClaseCard({ clase }) {
+'use client';
+
+import React from 'react';
+import useBreakpoint from '@/hooks/useBreakpoint';
+
+// Memoizado para prevenir re-renders innecesarios
+const ClaseCard = React.memo(function ClaseCard({ clase }) {
+  const breakpoint = useBreakpoint();
+  
+  // Determinar tamaño de card según breakpoint
+  const cardPadding = 
+    breakpoint.current === 'xs' ? 'p-3' : 
+    breakpoint.current === 'sm' ? 'p-4' : 
+    'p-5';
+    
+  const thumbnailHeight = 
+    breakpoint.current === 'xs' ? 'h-36' : 
+    breakpoint.current === 'sm' ? 'h-40' : 
+    'h-48';
+    
+  const titleSize = 
+    breakpoint.current === 'xs' ? 'text-lg' : 
+    breakpoint.current === 'sm' ? 'text-xl' : 
+    'text-xl';
+  
   return (
     <div className="card transition-transform hover:-translate-y-1 hover:shadow-xl border border-blue-500/20 group">
       {/* Miniatura del video con overlay de play */}
-      <div className="bg-gray-900 h-48 relative flex items-center justify-center overflow-hidden">
+      <div className={`bg-gray-900 ${thumbnailHeight} relative flex items-center justify-center overflow-hidden`}>
         {/* Fondo simulado del video */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-950 opacity-50"></div>
         
@@ -13,6 +37,7 @@ export default function ClaseCard({ clase }) {
             fill="white" 
             viewBox="0 0 24 24" 
             className="h-16 w-16 opacity-10"
+            aria-hidden="true"
           >
             <path d="M8 5v14l11-7z" />
           </svg>
@@ -25,6 +50,7 @@ export default function ClaseCard({ clase }) {
             viewBox="0 0 24 24"
             fill="white"
             className="h-7 w-7"
+            aria-hidden="true"
           >
             <path d="M8 5v14l11-7z" />
           </svg>
@@ -36,32 +62,43 @@ export default function ClaseCard({ clase }) {
         </div>
         
         {/* Indicador de estado en esquina superior */}
-        <div className={`absolute top-2 left-2 text-xs py-1 px-2 rounded-full flex items-center ${
-          clase.completado 
-            ? 'badge-success' 
-            : 'badge-pending'
-        }`}>
+        <div 
+          className={`absolute top-2 left-2 text-xs py-1 px-2 rounded-full flex items-center ${
+            clase.completado 
+              ? 'badge-success' 
+              : 'badge-pending'
+          }`}
+          aria-label={clase.completado ? 'Clase completada' : 'Clase pendiente'}
+        >
           <span className="w-2 h-2 rounded-full mr-1.5 bg-current"></span>
-          {clase.completado ? 'Completado' : 'Pendiente'}
+          {breakpoint.isSm && (clase.completado ? 'Completado' : 'Pendiente')}
         </div>
       </div>
       
       {/* Contenido de la tarjeta */}
-      <div className="p-5">
-        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
+      <div className={cardPadding}>
+        <h3 className={`${titleSize} font-bold mb-3 text-white group-hover:text-blue-400 transition-colors line-clamp-2`}>
           {clase.titulo}
         </h3>
-        <p className="text-gray-300 mb-4 text-sm">{clase.descripcion}</p>
+        
+        {/* Mostrar descripción solo en pantallas más grandes */}
+        {breakpoint.isMd && (
+          <p className="text-gray-300 mb-4 text-sm line-clamp-3">{clase.descripcion}</p>
+        )}
         
         <div className="flex items-center justify-end mt-3">
-          <button className="btn-primary text-sm flex items-center">
-            <span>Ver clase</span>
+          <button 
+            className="btn-primary text-sm flex items-center"
+            aria-label={`Ver clase: ${clase.titulo}`}
+          >
+            <span>{breakpoint.isSm ? 'Ver clase' : 'Ver'}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 ml-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -75,4 +112,6 @@ export default function ClaseCard({ clase }) {
       </div>
     </div>
   );
-}
+});
+
+export default ClaseCard;
